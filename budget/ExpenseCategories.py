@@ -15,23 +15,25 @@ def main():
         if not (a.issubset(b) and b.issubset(a)):
             print("Sets are NOT equal by subset test")
     
-    print(timeit.timeit(setup = '''
+    print(timeit.timeit(stmt = "expenses.categorize_for_loop()",
+                        setup=
+                        '''
 from . import Expense
 expenses = Expense.Expenses()
 expenses.read_expenses('data/spending_data.csv')
-    ''',
-        stmt = "expenses.categorize_for_loop()",
-        number = 10000,
-        globals = globals()))
+                        ''',
+                        number=100000,
+                        globals=globals()))
 
-    print(timeit.timeit(setup = '''
+    print(timeit.timeit(stmt = "expenses.categorize_set_comprehension()",
+                        setup=
+                        '''
 from . import Expense
 expenses = Expense.Expenses()
 expenses.read_expenses('data/spending_data.csv')
-    ''',
-        stmt = "expenses.categorize_set_comprehension()",
-        number = 10000,
-        globals = globals()))
+                        ''',
+                        number=100000,
+                        globals=globals()))
 
     fig,ax=plt.subplots()
     labels = ['Necessary', 'Food', 'Unnecessary']
